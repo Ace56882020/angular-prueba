@@ -1,5 +1,13 @@
 # Book
 
+para ejecutar el programa, se debe instalar las dependencias con mpn i
+
+para poder lanzar el servicio lo realizamos con npm start
+
+son los unicos pasos para poder correr el programa
+
+
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.0.5.
 
 ## Development server
