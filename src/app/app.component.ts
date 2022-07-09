@@ -13,14 +13,17 @@ import { bookModel } from "./core/book.model";
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements AfterViewInit{
-  displayedColumns: string[] = ['action','name', 'description', 'author', 'date','numbercopies','cost'];
+  @ViewChild(MatSort) set matSort(sort: MatSort) {
+    this.dataSource.sort = sort;
+}
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  displayedColumns: string[] = ['action','nameBook', 'description', 'author', 'date','numbercopies','cost'];
   dataSource = new MatTableDataSource();
   public title!:string
   public bookModel!:bookModel
   public active:boolean
-  @ViewChild('table') table!: MatTable<any>;
-  @ViewChild(MatSort) sort!: MatSort;
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  public minDate!:any
+  public dateNow:any
   constructor(
     private _liveAnnouncer: LiveAnnouncer,
     private bookSrv:BookService,
@@ -36,8 +39,19 @@ export class AppComponent implements AfterViewInit{
         numberCopies: 0,
         publicationDate: ""
       }
+      const getDate=new Date()
+      const year = getDate.getFullYear()-10
+      const dateN = getDate.getDate()
+      const mounth=getDate.getMonth()
+      this.minDate = new Date(year, mounth, dateN);
     }
-
+    applyFilter(event: Event) {
+      const filterValue = (event.target as HTMLInputElement).value;
+      this.dataSource.filter = filterValue.trim().toLowerCase();
+      if (this.dataSource.paginator) {
+        this.dataSource.paginator.firstPage();
+      }
+    }
     refesh(){
       this.bookModel={
         authorbook:"",
@@ -50,7 +64,6 @@ export class AppComponent implements AfterViewInit{
       }
     }
   ngAfterViewInit() {
-    this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
     this.getAllBooks()
   }
@@ -83,7 +96,7 @@ export class AppComponent implements AfterViewInit{
   }
 
   announceSortChange(sortState: Sort) {
-  
+  console.log(sortState)
     if (sortState.direction) {
       this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
     } else {
@@ -135,5 +148,8 @@ export class AppComponent implements AfterViewInit{
       alert("eliminado")
     })
       
+   }
+   date(event:any){
+    console.log(event)
    }
 }
