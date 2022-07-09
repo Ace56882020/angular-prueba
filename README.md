@@ -1,8 +1,10 @@
 # Book
 
-para ejecutar el programa, se debe instalar las dependencias con mpn i
+Descargar el proyecto y abrirlo en visual code
 
-para poder lanzar el servicio lo realizamos con npm start
+En la terminal ingresamos el comando npm i para instalar las dependencias 
+
+Ya instalado todo ingresamos el comandó  con npm start para que el proyecto se inicié
 
 son los unicos pasos para poder correr el programa
 
