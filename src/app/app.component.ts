@@ -27,6 +27,15 @@ export class AppComponent implements AfterViewInit{
     public dialog: MatDialog
     ) {
       this.active=true
+      this.bookModel={
+        authorbook:"",
+        cost: 0,
+        descriptionbook: "",
+        id: "",
+        nameBook: "",
+        numberCopies: 0,
+        publicationDate: ""
+      }
     }
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
@@ -37,7 +46,7 @@ export class AppComponent implements AfterViewInit{
   //busca todos los libros registrados
   getAllBooks(){
     this.bookSrv.getAllBooks().subscribe((resp)=>{
-      console.log()
+      
       this.dataSource = new MatTableDataSource(resp);
     })
   }
@@ -50,7 +59,14 @@ export class AppComponent implements AfterViewInit{
       id:id
     }
     this.bookSrv.getBookId(data).subscribe((resp)=>{
-      console.log(resp)
+      
+      this.bookModel.authorbook=resp.authorbook
+      this.bookModel.cost=resp.cost
+      this.bookModel.descriptionbook=resp.descriptionbook
+      this.bookModel.id=resp.id
+      this.bookModel.nameBook=resp.nameBook
+      this.bookModel.numberCopies=resp.numberCopies
+      this.bookModel.publicationDate=resp.publicationDate
     })
   }
 
@@ -72,13 +88,22 @@ export class AppComponent implements AfterViewInit{
   //envia la peticion a la base
   submit(f:any) {
     console.log(f.value)
-    this.active=true
-    const data={
-      
+    if(this.bookModel.id===''){
+      this.bookSrv.createBook(f.value).subscribe((resp)=>{
+        
+          this.getAllBooks()
+          this.active=true
+      })
+    }else{
+      f.value.id=this.bookModel.id
+      this.bookSrv.updateBook(f.value).subscribe((resp)=>{
+        
+          this.getAllBooks()
+          this.active=true
+      })
     }
-    this.bookSrv.createBook(f.value).subscribe((resp)=>{
-      console.log(resp)
-    })
+
+   
     // this.dataSource = new MatTableDataSource(this.paramters);
    }
  
@@ -87,6 +112,14 @@ export class AppComponent implements AfterViewInit{
    }
 
    deleteBook(book:any){
-      console.log(book)
+    const data={
+      id:book
+    }
+    this.bookSrv.deleteBookId(data).subscribe((resp)=>{
+      
+      this.getAllBooks()
+      alert("eliminado")
+    })
+      
    }
 }

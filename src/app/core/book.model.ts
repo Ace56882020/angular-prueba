@@ -2,7 +2,7 @@ export interface bookModel {
     authorbook:string,
     cost: number
     descriptionbook: string,
-    id: number
+    id: any
     nameBook: string,
     numberCopies: number,
     publicationDate: any

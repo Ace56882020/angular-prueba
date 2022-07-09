@@ -23,4 +23,14 @@ export class BookService {
     const headers: any = new HttpHeaders().set('Content-Type', 'application/json');
     return this.http.post(apiBook.endPointApi + "api/Book", body, {headers: headers});
   }
+
+  deleteBookId(data:any): Observable<any> {
+    const headers: any = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.http.delete(apiBook.endPointApi + `api/Book/${data.id}`, {headers: headers});
+  }
+  updateBook(data:any): Observable<any> {
+    const body: any = JSON.stringify(data);
+    const headers: any = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.http.put(apiBook.endPointApi + "api/Book", body, {headers: headers});
+  }
 }

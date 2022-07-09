@@ -82,7 +82,7 @@
       >
         Fecha publicación
       </th>
-      <td mat-cell *matCellDef="let element">{{ element.publicationDate }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.publicationDate | date }}</td>
     </ng-container>
     <ng-container matColumnDef="numbercopies">
       <th
@@ -93,7 +93,7 @@
       >
         # ejemplares
       </th>
-      <td mat-cell *matCellDef="let element">{{ element.numbercopies }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.numberCopies }}</td>
     </ng-container>
     <ng-container matColumnDef="cost">
       <th
@@ -125,16 +125,18 @@
       <h3 class="title">{{title}}</h3>
       <form #f="ngForm">
         <mat-grid-list cols="1" rowHeight="60px">
+          
           <mat-grid-tile>
             <mat-form-field>
               <mat-label>Nombre libro</mat-label>
               <input
-                name="name"
+                name="nameBook"
                 ngModel
                 required
                 #input maxlength="150"
                 placeholder="Nombre libro"
                 matInput
+                [(ngModel)]="bookModel.nameBook"
               />
               <mat-hint align="end">{{input.value?.length || 0}}/150</mat-hint>
             </mat-form-field>
@@ -143,12 +145,13 @@
             <mat-form-field>
               <mat-label>Descripción</mat-label>
               <input
-                name="description"
+                name="descriptionbook"
                 ngModel
                 required
                 placeholder="Descripción"
                 matInput
                 #input maxlength="300"
+                [(ngModel)]="bookModel.descriptionbook"
               />
               <mat-hint align="end">{{input.value?.length || 0}}/300</mat-hint>
             </mat-form-field>
@@ -157,12 +160,13 @@
             <mat-form-field>
               <mat-label>Autor</mat-label>
               <input
-                name="author"
+                name="authorbook"
                 ngModel
                 required
                 placeholder="Autor"
                 matInput
                 #input maxlength="150"
+                [(ngModel)]="bookModel.authorbook"
               />
               <mat-hint align="end">{{input.value?.length || 0}}/150</mat-hint>
             </mat-form-field>
@@ -170,11 +174,13 @@
           <mat-grid-tile>
             <mat-form-field appearance="fill">
               <mat-label>Fecha publicación</mat-label>
-              <input matInput [matDatepicker]="picker"  name="publicationDate"
+              <input matInput [matDatepicker]="picker"  name="publicationdate"
               ngModel
               required
               placeholder="Fecha publicación"
-              matInput>
+              matInput
+              [(ngModel)]="bookModel.publicationDate"
+              >
               <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
               <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
@@ -192,6 +198,7 @@
                 type="text"
                 step="any"
                 #input maxlength="5"
+                [(ngModel)]="bookModel.numberCopies"
                 onKeypress="if (event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;"
               />
               <mat-hint align="end">{{input.value?.length || 0}}/5</mat-hint>
@@ -208,6 +215,7 @@
                 matInput
                 #input maxlength="4"
                 type="number"
+                [(ngModel)]="bookModel.cost"
               />
               <mat-hint align="end">{{input.value?.length || 0}}/4</mat-hint>
             </mat-form-field> 
