@@ -6,7 +6,7 @@ import {MatTable, MatTableDataSource} from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { BookService } from './services/book.service';
 import { MatDialog } from '@angular/material/dialog';
-
+import { bookModel } from "./core/book.model";
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -14,63 +14,13 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class AppComponent implements AfterViewInit{
   displayedColumns: string[] = ['action','name', 'description', 'author', 'date','numbercopies','cost'];
-  dataSource = new MatTableDataSource([
-    {
-      "id": 3,
-      "name": "constumbres",
-      "description": "temas varios",
-      "author": "ace",
-      "date": "02/07/2019",
-      "numbercopies": 12,
-      "cost": 1220
-    },
-    {
-      "id": 2,
-      "name": "laberito",
-      "description": "cuentos",
-      "author": "string",
-      "date": "02/07/2022",
-      "numbercopies": 120,
-      "cost": 120
-    },
-    {
-      "id": 3,
-      "name": "constumbres",
-      "description": "temas varios",
-      "author": "ace",
-      "date": "02/07/2019",
-      "numbercopies": 12,
-      "cost": 1220
-    },
-    {
-      "id": 2,
-      "name": "laberito",
-      "description": "cuentos",
-      "author": "string",
-      "date": "02/07/2022",
-      "numbercopies": 120,
-      "cost": 120
-    },
-    {
-      "id": 3,
-      "name": "constumbres",
-      "description": "temas varios",
-      "author": "ace",
-      "date": "02/07/2019",
-      "numbercopies": 12,
-      "cost": 1220
-    },
-    {
-      "id": 2,
-      "name": "laberito",
-      "description": "cuentos",
-      "author": "string",
-      "date": "02/07/2022",
-      "numbercopies": 120,
-      "cost": 120
-    },
-  ]);
+  dataSource = new MatTableDataSource();
+  public title!:string
+  public bookModel!:bookModel
   public active:boolean
+  @ViewChild('table') table!: MatTable<any>;
+  @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
   constructor(
     private _liveAnnouncer: LiveAnnouncer,
     private bookSrv:BookService,
@@ -78,24 +28,26 @@ export class AppComponent implements AfterViewInit{
     ) {
       this.active=true
     }
-  @ViewChild('table') table!: MatTable<any>;
-  @ViewChild(MatSort) sort!: MatSort;
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
     this.getAllBooks()
-    this.getBookId()
   }
+
+  //busca todos los libros registrados
   getAllBooks(){
     this.bookSrv.getAllBooks().subscribe((resp)=>{
-      console.log(resp)
+      console.log()
+      this.dataSource = new MatTableDataSource(resp);
     })
   }
 
-  getBookId(){
+  //busca el libro seleccionado
+  editBook(id:any){
+    this.active=false
+    this.title='Editar libro'
     const data={
-      id:3
+      id:id
     }
     this.bookSrv.getBookId(data).subscribe((resp)=>{
       console.log(resp)
@@ -111,20 +63,30 @@ export class AppComponent implements AfterViewInit{
     }
   }
 
-  actionOpen(){
-
-  }
-
+//nuevo libro
   new(){
     this.active=false
+    this.title='Ingreso de un nuevo libro'
   }
-  doAction(f:any) {
+
+  //envia la peticion a la base
+  submit(f:any) {
     console.log(f.value)
     this.active=true
-    this.dataSource = new MatTableDataSource(f.value);
+    const data={
+      
+    }
+    this.bookSrv.createBook(f.value).subscribe((resp)=>{
+      console.log(resp)
+    })
+    // this.dataSource = new MatTableDataSource(this.paramters);
    }
  
-   closeDialog() {
+   close() {
     this.active=true
+   }
+
+   deleteBook(book:any){
+      console.log(book)
    }
 }

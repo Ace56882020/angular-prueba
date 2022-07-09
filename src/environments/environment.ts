@@ -5,7 +5,8 @@ export const environment = {
   production: false
 };
 export const apiBook = {
-  endPointApi:'https://localhost:44352/',
+  endPointApi:'http://localhost:7158/',
+  ssl:false
 };
 
 /*

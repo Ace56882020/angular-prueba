@@ -5,3 +5,13 @@ table {
   th.mat-sort-header-sorted {
     color: black;
   }
+  .title{
+    background: #673ab7;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    border-radius: 10px;
+  }
+  mat-form-field{
+    width: 80%;
+  }
