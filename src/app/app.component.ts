@@ -37,6 +37,18 @@ export class AppComponent implements AfterViewInit{
         publicationDate: ""
       }
     }
+
+    refesh(){
+      this.bookModel={
+        authorbook:"",
+        cost: 0,
+        descriptionbook: "",
+        id: "",
+        nameBook: "",
+        numberCopies: 0,
+        publicationDate: ""
+      }
+    }
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
@@ -83,6 +95,7 @@ export class AppComponent implements AfterViewInit{
   new(){
     this.active=false
     this.title='Ingreso de un nuevo libro'
+    this.refesh()
   }
 
   //envia la peticion a la base
@@ -93,11 +106,12 @@ export class AppComponent implements AfterViewInit{
         
           this.getAllBooks()
           this.active=true
+          this.refesh()
       })
     }else{
       f.value.id=this.bookModel.id
       this.bookSrv.updateBook(f.value).subscribe((resp)=>{
-        
+        this.refesh()
           this.getAllBooks()
           this.active=true
       })
