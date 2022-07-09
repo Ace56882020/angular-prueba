@@ -1,15 +1,15 @@
-<mat-toolbar>
+<mat-toolbar class="toolbar">
   <span>Book CRUD</span>
 </mat-toolbar>
 <div *ngIf="active; else inactive">
- <div style="margin: 10px 0;text-align: right;">
-  <button mat-raised-button color="primary" (click)="new()">
-    <mat-icon>add</mat-icon>Nuevo
-  </button>
- </div>
+  <div style="margin: 10px 0; text-align: right">
+    <button mat-raised-button color="primary" (click)="new()">
+      <mat-icon>add</mat-icon>Nuevo
+    </button>
+  </div>
+
   <table
     mat-table
-    #table
     [dataSource]="dataSource"
     matSort
     (matSortChange)="announceSortChange($event)"
@@ -34,12 +34,12 @@
       </td>
     </ng-container>
     <!-- Position Column -->
-    <ng-container matColumnDef="name">
+    <ng-container matColumnDef="nameBook">
       <th
         mat-header-cell
         *matHeaderCellDef
         mat-sort-header
-        sortActionDescription="Sort by name"
+        sortActionDescription="Sort by nameBook"
       >
         Nombre libro
       </th>
@@ -52,7 +52,7 @@
         mat-header-cell
         *matHeaderCellDef
         mat-sort-header
-        sortActionDescription="Sort by description"
+        sortActionDescription="Sort by descriptionbook"
       >
         Descripción
       </th>
@@ -65,9 +65,9 @@
         mat-header-cell
         *matHeaderCellDef
         mat-sort-header
-        sortActionDescription="Sort by author"
+        sortActionDescription="Sort by authorbook"
       >
-        Author
+        Autor
       </th>
       <td mat-cell *matCellDef="let element">{{ element.authorbook }}</td>
     </ng-container>
@@ -78,18 +78,20 @@
         mat-header-cell
         *matHeaderCellDef
         mat-sort-header
-        sortActionDescription="Sort by date"
+        sortActionDescription="Sort by publicationDate"
       >
         Fecha publicación
       </th>
-      <td mat-cell *matCellDef="let element">{{ element.publicationDate | date }}</td>
+      <td mat-cell *matCellDef="let element">
+        {{ element.publicationDate | date }}
+      </td>
     </ng-container>
     <ng-container matColumnDef="numbercopies">
       <th
         mat-header-cell
         *matHeaderCellDef
         mat-sort-header
-        sortActionDescription="Sort by numbercopies"
+        sortActionDescription="Sort by numberCopies"
       >
         # ejemplares
       </th>
@@ -100,11 +102,11 @@
         mat-header-cell
         *matHeaderCellDef
         mat-sort-header
-        sortActionDescription="Sort by numbercopies"
+        sortActionDescription="Sort by cost"
       >
         Costo
       </th>
-      <td mat-cell *matCellDef="let element">{{ element.cost | currency}}</td>
+      <td mat-cell *matCellDef="let element">{{ element.cost | currency }}</td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -122,10 +124,9 @@
 <ng-template #inactive>
   <mat-card>
     <div class="contenedor">
-      <h3 class="title">{{title}}</h3>
+      <h3 class="title">{{ title }}</h3>
       <form #f="ngForm">
         <mat-grid-list cols="1" rowHeight="60px">
-          
           <mat-grid-tile>
             <mat-form-field>
               <mat-label>Nombre libro</mat-label>
@@ -133,12 +134,15 @@
                 name="nameBook"
                 ngModel
                 required
-                #input maxlength="150"
+                #input
+                maxlength="150"
                 placeholder="Nombre libro"
                 matInput
                 [(ngModel)]="bookModel.nameBook"
               />
-              <mat-hint align="end">{{input.value?.length || 0}}/150</mat-hint>
+              <mat-hint align="end"
+                >{{ input.value?.length || 0 }}/150</mat-hint
+              >
             </mat-form-field>
           </mat-grid-tile>
           <mat-grid-tile>
@@ -150,10 +154,13 @@
                 required
                 placeholder="Descripción"
                 matInput
-                #input maxlength="300"
+                #input
+                maxlength="300"
                 [(ngModel)]="bookModel.descriptionbook"
               />
-              <mat-hint align="end">{{input.value?.length || 0}}/300</mat-hint>
+              <mat-hint align="end"
+                >{{ input.value?.length || 0 }}/300</mat-hint
+              >
             </mat-form-field>
           </mat-grid-tile>
           <mat-grid-tile>
@@ -165,27 +172,38 @@
                 required
                 placeholder="Autor"
                 matInput
-                #input maxlength="150"
+                #input
+                maxlength="150"
                 [(ngModel)]="bookModel.authorbook"
               />
-              <mat-hint align="end">{{input.value?.length || 0}}/150</mat-hint>
+              <mat-hint align="end"
+                >{{ input.value?.length || 0 }}/150</mat-hint
+              >
             </mat-form-field>
           </mat-grid-tile>
           <mat-grid-tile>
             <mat-form-field appearance="fill">
               <mat-label>Fecha publicación</mat-label>
-              <input matInput [matDatepicker]="picker"  name="publicationdate"
-              ngModel
-              required
-              placeholder="Fecha publicación"
-              matInput
-              [(ngModel)]="bookModel.publicationDate"
-              >
-              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <input
+                matInput
+                [matDatepicker]="picker"
+                name="publicationdate"
+                ngModel
+                required
+                placeholder="Fecha publicación"
+                matInput
+                [min]="minDate"
+                [(ngModel)]="bookModel.publicationDate"
+                (change)="date($event)"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="picker"
+              ></mat-datepicker-toggle>
               <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
           </mat-grid-tile>
-   
+
           <mat-grid-tile>
             <mat-form-field>
               <mat-label># ejemplares</mat-label>
@@ -197,12 +215,13 @@
                 matInput
                 type="text"
                 step="any"
-                #input maxlength="5"
+                #input
+                maxlength="5"
                 [(ngModel)]="bookModel.numberCopies"
                 onKeypress="if (event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;"
               />
-              <mat-hint align="end">{{input.value?.length || 0}}/5</mat-hint>
-            </mat-form-field> 
+              <mat-hint align="end">{{ input.value?.length || 0 }}/5</mat-hint>
+            </mat-form-field>
           </mat-grid-tile>
           <mat-grid-tile>
             <mat-form-field>
@@ -213,12 +232,13 @@
                 required
                 placeholder="Costo"
                 matInput
-                #input maxlength="4"
+                #input
+                maxlength="4"
                 type="number"
                 [(ngModel)]="bookModel.cost"
               />
-              <mat-hint align="end">{{input.value?.length || 0}}/4</mat-hint>
-            </mat-form-field> 
+              <mat-hint align="end">{{ input.value?.length || 0 }}/4</mat-hint>
+            </mat-form-field>
           </mat-grid-tile>
         </mat-grid-list>
         <div>
@@ -228,8 +248,7 @@
         </div>
       </form>
     </div>
-    <div mat-dialog-actions style="    margin: 0 auto;
-    display: table;">
+    <div mat-dialog-actions style="margin: 0 auto; display: table">
       <button
         mat-raised-button
         (click)="close()"
@@ -246,8 +265,10 @@
         mat-raised-button
         (click)="submit(f)"
         [disabled]="f.invalid"
-        style="font-weight: bold;background-color: #673ab7;color: white;"
-      >Crear</button>
+        style="font-weight: bold; background-color: #673ab7; color: white"
+      >
+        Guardar
+      </button>
     </div>
   </mat-card>
 </ng-template>
