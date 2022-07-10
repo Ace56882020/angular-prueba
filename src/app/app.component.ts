@@ -17,9 +17,9 @@ export class AppComponent implements AfterViewInit {
   displayedColumns: string[] = [
     'action',
     'nameBook',
-    'description',
-    'author',
-    'date',
+    'descriptionbook',
+    'authorbook',
+    'publicationDate',
     'numbercopies',
     'cost',
   ];
@@ -57,7 +57,7 @@ export class AppComponent implements AfterViewInit {
   refesh() {
     this.bookModel = {
       authorbook: '',
-      cost: 0,
+      cost: 0.0000,
       descriptionbook: '',
       id: '',
       nameBook: '',
@@ -68,7 +68,6 @@ export class AppComponent implements AfterViewInit {
   ngAfterViewInit() {
     this.getAllBooks();
   }
-
   //busca todos los libros registrados
   getAllBooks() {
     this.bookSrv.getAllBooks().subscribe((resp) => {
@@ -80,6 +79,7 @@ export class AppComponent implements AfterViewInit {
 
   //busca el libro seleccionado
   editBook(id: any) {
+    this.refesh()
     this.active = false;
     this.title = 'Editar libro';
     const data = {
@@ -124,6 +124,7 @@ export class AppComponent implements AfterViewInit {
 
   close() {
     this.active = true;
+    this.getAllBooks()
   }
 
   deleteBook(book: any) {
