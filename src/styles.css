@@ -2,3 +2,42 @@
 @import '@angular/material/prebuilt-themes/deeppurple-amber.css';
 html, body { height: 100%; }
 body { margin: 10px; font-family: Roboto, "Helvetica Neue", sans-serif; }
+/* Estilos para motores Webkit y blink (Chrome, Safari, Opera... )*/
+.contenedor {
+    height: 420px;
+    border: none;
+    overflow: auto;
+    box-sizing: border-box;
+  }
+  .contenedor::-webkit-scrollbar {
+    -webkit-appearance: none;
+  }
+  
+  .contenedor::-webkit-scrollbar:vertical {
+    width: 10px;
+  }
+  
+  .contenedor::-webkit-scrollbar-button:increment,
+  .contenedor::-webkit-scrollbar-button {
+    display: none;
+  }
+  
+  .contenedor::-webkit-scrollbar:horizontal {
+    height: 10px;
+  }
+  
+  .contenedor::-webkit-scrollbar-thumb {
+    background-color: #d1cbcb;
+    border-radius: 20px;
+    border: 2px solid #f1f2f3;
+  }
+  .contenedor::-webkit-scrollbar-thumb:hover {
+    background-color: #d1cbcb;
+    border-radius: 20px;
+    border: 0px solid #f1f2f3;
+    width: 50px;
+  }
+  
+  .contenedor::-webkit-scrollbar-track {
+    border-radius: 10px;
+  }
