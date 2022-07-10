@@ -144,6 +144,7 @@
                 placeholder="Nombre libro"
                 matInput
                 [(ngModel)]="bookModel.nameBook"
+                (change)="filterName(f.value.nameBook)"
               />
               <mat-hint align="end"
                 >{{ input.value?.length || 0 }}/150</mat-hint
@@ -219,10 +220,10 @@
                 placeholder="# ejemplares"
                 matInput
                 type="text"
-                step="any"
                 #input
                 maxlength="5"
                 [(ngModel)]="bookModel.numberCopies"
+                 oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\,,*?)\,,*/g, '$1');"
                 onKeypress="if (event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;"
               />
               <mat-hint align="end">{{ input.value?.length || 0 }}/5</mat-hint>
@@ -241,6 +242,7 @@
                 step="0.0001"
                 type="number"
                 [(ngModel)]="bookModel.cost"
+                oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
               />
               <mat-hint align="end">{{ input.value?.length || 0 }}/4</mat-hint>
             </mat-form-field>
