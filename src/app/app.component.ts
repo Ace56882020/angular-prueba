@@ -30,6 +30,7 @@ export class AppComponent implements AfterViewInit {
   public active: boolean;
   public minDate!: any;
   public dateNow: any;
+  public dataName!:any[]
   constructor(private bookSrv: BookService, public dialog: MatDialog) {
     this.active = true;
     this.bookModel = {
@@ -71,12 +72,22 @@ export class AppComponent implements AfterViewInit {
   //busca todos los libros registrados
   getAllBooks() {
     this.bookSrv.getAllBooks().subscribe((resp) => {
+      this.dataName=resp
       this.dataSource = new MatTableDataSource(resp);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     });
   }
 
+  filterName(name:any){
+    console.log(name)
+    const valor = this.dataName.filter(resp=>resp.nameBook.toLowerCase()===name.toLowerCase())
+    if(valor.length>0){
+      alert('Nombre de titulo ya registrado')
+      this.bookModel.nameBook=''
+    }
+
+  }
   //busca el libro seleccionado
   editBook(id: any) {
     this.refesh()
