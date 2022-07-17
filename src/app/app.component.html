@@ -90,10 +90,10 @@
         Fecha publicación
       </th>
       <td mat-cell *matCellDef="let element">
-        {{ element.publicationDate | date }}
+        {{ element.publicationDate }}
       </td>
     </ng-container>
-    <ng-container matColumnDef="numbercopies">
+    <ng-container matColumnDef="numberCopies">
       <th
         mat-header-cell
         *matHeaderCellDef
@@ -193,7 +193,7 @@
               <input
                 matInput
                 [matDatepicker]="picker"
-                name="publicationdate"
+                name="publicationDate"
                 ngModel
                 required
                 placeholder="Fecha publicación"
@@ -214,7 +214,7 @@
             <mat-form-field>
               <mat-label># ejemplares</mat-label>
               <input
-                name="numbercopies"
+                name="numberCopies"
                 ngModel
                 required
                 placeholder="# ejemplares"

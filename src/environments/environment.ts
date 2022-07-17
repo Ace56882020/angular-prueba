@@ -5,7 +5,8 @@ export const environment = {
   production: false
 };
 export const apiBook = {
-  endPointApi:'http://localhost:7158/',
+  // endPointApi:'http://localhost:7158/', //.net
+  endPointApi:'http://localhost:8092/', // sprint boot
   ssl:false
 };
 

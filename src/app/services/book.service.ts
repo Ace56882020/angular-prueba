@@ -8,7 +8,8 @@ import { Observable } from 'rxjs';
 })
 export class BookService {
 
-  constructor(public http: HttpClient) { }
+  constructor(public http: HttpClient) {
+   }
   getAllBooks(): Observable<any> {
     const headers: any = new HttpHeaders().set('Content-Type', 'application/json');
     return this.http.get(apiBook.endPointApi + "api/Book",  { headers: headers });
@@ -18,6 +19,7 @@ export class BookService {
     const headers: any = new HttpHeaders().set('Content-Type', 'application/json');
     return this.http.get(apiBook.endPointApi + `api/Book/${data.id}`, {headers: headers});
   }
+
   createBook(data:any): Observable<any> {
     const body: any = JSON.stringify(data);
     const headers: any = new HttpHeaders().set('Content-Type', 'application/json');
@@ -28,6 +30,7 @@ export class BookService {
     const headers: any = new HttpHeaders().set('Content-Type', 'application/json');
     return this.http.delete(apiBook.endPointApi + `api/Book/${data.id}`, {headers: headers});
   }
+  
   updateBook(data:any): Observable<any> {
     const body: any = JSON.stringify(data);
     const headers: any = new HttpHeaders().set('Content-Type', 'application/json');

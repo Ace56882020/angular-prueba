@@ -20,7 +20,7 @@ export class AppComponent implements AfterViewInit {
     'descriptionbook',
     'authorbook',
     'publicationDate',
-    'numbercopies',
+    'numberCopies',
     'cost',
   ];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -73,6 +73,7 @@ export class AppComponent implements AfterViewInit {
   getAllBooks() {
     this.bookSrv.getAllBooks().subscribe((resp) => {
       this.dataName=resp
+      console.log(resp)
       this.dataSource = new MatTableDataSource(resp);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
@@ -116,7 +117,7 @@ export class AppComponent implements AfterViewInit {
 
   //envia la peticion a la base
   submit(f: any) {
-    console.log(f.value);
+    console.log(f.value,"value");
     if (this.bookModel.id === '') {
       this.bookSrv.createBook(f.value).subscribe((resp) => {
         this.getAllBooks();
